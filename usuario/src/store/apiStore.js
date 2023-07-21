@@ -14,3 +14,16 @@ export const useStore = create((set) => ({
     }
   }
 }))
+
+export const useImageAutoUpdateStore = create((set) => ({
+  imageData: null,
+  fetchImageData: async () => {
+    try {
+      const response = await fetch("https://picsum.photos/200/300")
+      const data = await response.blob()
+      set({ imageData: URL.createObjectURL(data) })
+    } catch (error) {
+      console.error("Error fetching image data:", error)
+    }
+  }
+}))
