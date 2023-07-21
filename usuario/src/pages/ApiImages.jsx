@@ -17,9 +17,9 @@ export const ApiImages = () => {
   }
 return (
   <div style={container}>
+    <div>Imagen Generada cada 5 segundos</div>
     {imageData && (
       <div>
-        <p>Imagen actualizada cada 5 segundos:</p>
         <img
           src={imageData}
           alt='Imagen'

@@ -27,3 +27,21 @@ export const useImageAutoUpdateStore = create((set) => ({
     }
   }
 }))
+
+export const useImageTableStore = create((set) => ({
+  images: [],
+  fetchImages: async () => {
+    try {
+      const imagePromises = Array.from({ length: 10 }, () =>
+        fetch("https://picsum.photos/200/300")
+      )
+      const responses = await Promise.all(imagePromises)
+      const blobPromises = responses.map((response) => response.blob())
+      const blobs = await Promise.all(blobPromises)
+      const imageUrls = blobs.map((blob) => URL.createObjectURL(blob))
+      set({ images: imageUrls })
+    } catch (error) {
+      console.error("Error fetching images:", error)
+    }
+  }
+}))

@@ -1,9 +1,10 @@
-import { useStore } from "../store/apiStore"
-import { useState } from "react"
+import { useStore, useImageTableStore } from "../store/apiStore"
+import { useState, useEffect } from "react"
 
 export const User = () => {
   const { width, height, imageData, fetchImageData } = useStore()
   const [imageGenerated, setImageGenerated] = useState(false)
+  const { images, fetchImages } = useImageTableStore()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -12,6 +13,10 @@ export const User = () => {
       setImageGenerated(true)
     }
   }
+
+  useEffect(() => {
+    fetchImages() // Llamar a fetchImages para obtener las imágenes
+  }, [fetchImages])
 
   const inputs = {
     display: "grid",
@@ -58,6 +63,29 @@ export const User = () => {
             />
           </div>
         )}
+      </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Imagenes</th>
+            </tr>
+          </thead>
+          <tbody style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr'}}>
+            {images.map((imageUrl, index) => (
+              <tr key={index}>
+                <td>
+                  <img
+                    src={imageUrl}
+                    alt={`Imagen ${index}`}
+                    width="50"
+                    height="50"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </form>
   )
